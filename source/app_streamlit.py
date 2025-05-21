@@ -5,6 +5,16 @@ from catboost import CatBoostClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from preprocessing import preprocess_text
 
+# Diccionario de traducción de sentimientos
+SENTIMENT_TRANSLATIONS = {
+    'peaceful': 'Paz',
+    'mad': 'Enojo',
+    'powerful': 'Poder',
+    'sad': 'Tristeza',
+    'joyful': 'Alegría',
+    'scared': 'Miedo'
+}
+
 # Configuración de la página
 st.set_page_config(
     page_title="Análisis de Sentimientos",
@@ -123,8 +133,8 @@ if st.button("Analizar Sentimiento", type="primary"):
                 # Mostrar el resultado
                 st.subheader("Resultado del Análisis")
                 
-                # Mostrar el sentimiento predicho
-                st.success(f"El sentimiento del texto es: {sentiment}")
+                # Mostrar el sentimiento predicho en ambos idiomas
+                st.success(f"El sentimiento del texto es: {sentiment} ({SENTIMENT_TRANSLATIONS[sentiment]})")
                 
                 # Mostrar las probabilidades en un gráfico
                 st.subheader("Probabilidades por Clase")
@@ -133,14 +143,14 @@ if st.button("Analizar Sentimiento", type="primary"):
                 col1, col2 = st.columns(2)
                 
                 with col1:
-                    st.metric("Peaceful", f"{probabilities['peaceful']:.1f}%")
-                    st.metric("Mad", f"{probabilities['mad']:.1f}%")
-                    st.metric("Powerful", f"{probabilities['powerful']:.1f}%")
+                    st.metric("Peaceful (Paz)", f"{probabilities['peaceful']:.1f}%")
+                    st.metric("Mad (Enojo)", f"{probabilities['mad']:.1f}%")
+                    st.metric("Powerful (Poder)", f"{probabilities['powerful']:.1f}%")
                 
                 with col2:
-                    st.metric("Sad", f"{probabilities['sad']:.1f}%")
-                    st.metric("Joyful", f"{probabilities['joyful']:.1f}%")
-                    st.metric("Scared", f"{probabilities['scared']:.1f}%")
+                    st.metric("Sad (Tristeza)", f"{probabilities['sad']:.1f}%")
+                    st.metric("Joyful (Alegría)", f"{probabilities['joyful']:.1f}%")
+                    st.metric("Scared (Miedo)", f"{probabilities['scared']:.1f}%")
     else:
         st.warning("Por favor, ingresa un texto para analizar.")
 
